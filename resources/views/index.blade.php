@@ -70,7 +70,7 @@
                                 <p class="card-text"><strong>Email:</strong> {{ $event->email }}</p>
                                 <p class="card-text"><strong>Date:</strong> {{ $event->event_date }}</p>
                                 <p class="card-text"><strong>Time:</strong>
-                                    {{ $event->event_time ? $event->event_time : 'Not Set' }}</p>
+                                    {{ $event->event_time ? \Carbon\Carbon::parse($event->event_time)->format('g:i A') : 'Not Set' }}</p>
                                 <p class="card-text">
                                     <strong>Status:</strong>
                                     <span class="{{ $event->is_completed ? 'text-success' : 'text-danger' }}">
