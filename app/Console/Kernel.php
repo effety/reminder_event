@@ -27,31 +27,43 @@ class Kernel extends ConsoleKernel
     protected function checkForDueReminders()
     {
         Log::info("Checking for due reminders...");
-    
-        // Check if the device has internet connection
+ 
         if ($this->isInternetAvailable()) {
-            $now = Carbon::now();
+            // Get the current date and time in the correct timezone
+            $now = Carbon::now('Asia/Dhaka');
+            $currentDate = $now->toDateString();
+            $currentTime = $now->toTimeString();
     
+            Log::info("Current date: {$currentDate}, Current time: {$currentTime}");
             $events = Event::where('is_completed', false)
-                ->whereDate('event_date', $now->toDateString())
-                ->whereTime('event_time', '>=', $now->toTimeString())
+                ->whereDate('event_date', $currentDate)
                 ->get();
     
             if ($events->isEmpty()) {
                 Log::info("No incomplete events found.");
                 return;
             }
-    
+
             foreach ($events as $event) {
-                Log::info("Sending reminder email for event ID: {$event->id}, email: {$event->email}");
-                (new SendEventReminderEmail($event, $event->email))->handle();
-                $event->is_completed = true;
-                $event->save();
+                Log::info("Checking event ID: {$event->id}, Event time: {$event->event_time}");
+
+                if ($event->event_time <= $currentTime) {
+                    Log::info("Sending reminder email for event ID: {$event->id}, email: {$event->email}");
+    
+                    (new SendEventReminderEmail($event, $event->email))->handle();
+
+                    $event->is_completed = true;
+                    $event->save();
+                } else {
+                    Log::info("Event ID: {$event->id} is scheduled for later today.");
+                }
             }
         } else {
             Log::warning("No internet connection. Skipping email reminders.");
         }
     }
+    
+    
     
     protected function isInternetAvailable()
     {
@@ -66,10 +78,8 @@ class Kernel extends ConsoleKernel
     }
     
     
-
-    // This method would handle retrying failed reminders
     protected function retryFailedReminders()
     {
-        // Logic for retrying failed reminders can be added here
+        
     }
 }

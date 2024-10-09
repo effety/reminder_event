@@ -16,3 +16,5 @@ use App\Http\Controllers\EventController;
 Route::resource('events', EventController::class);
 Route::get('/', [EventController::class, 'index'])->name('home');
 Route::post('/events/import', [EventController::class, 'import'])->name('events.import');
+Route::get('/api/events', [EventController::class, 'getEvents']);
+

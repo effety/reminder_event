@@ -47,10 +47,10 @@
                 Import Data
             </button>
         </div>
-        
-        @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
+
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
             </div>
         @endif
         <!-- Event List -->
@@ -60,8 +60,11 @@
                     <div class="col-md-4 mb-3">
                         <div class="card">
                             <div class="card-header align-items-center  bg-info text-white">
-                                
-                                <h5 class="card-title mb-0"><i class="fas fa-clock fa-2x me-4"></i>     {{ $event->name }}</h5>
+
+                                <h5 class="card-title mb-0"><i class="fas fa-clock fa-2x me-4"></i> {{ $event->name }}</h5>
+                                <p>
+                                <p class="card-text"><strong>ID:</strong> {{ $event->reminder_id  }}</p>
+                                </p>
                             </div>
                             <div class="card-body text-start" style="color: #333;">
                                 <p class="card-text"><strong>Email:</strong> {{ $event->email }}</p>
@@ -165,31 +168,33 @@
         </div>
 
         {{-- import data --}}
-<div class="modal fade" id="importDataModal" tabindex="-1" role="dialog" aria-labelledby="importDataModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="importDataModalLabel">Import Events</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form id="importForm" enctype="multipart/form-data" action="{{ route('events.import') }}" method="POST">
-                @csrf
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="csv_file">Upload CSV File</label>
-                        <input type="file" name="csv_file" class="form-control" id="csv_file" required>
+        <div class="modal fade" id="importDataModal" tabindex="-1" role="dialog"
+            aria-labelledby="importDataModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="importDataModalLabel">Import Events</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
+                    <form id="importForm" enctype="multipart/form-data" action="{{ route('events.import') }}"
+                        method="POST">
+                        @csrf
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="csv_file">Upload CSV File</label>
+                                <input type="file" name="csv_file" class="form-control" id="csv_file" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Import</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Import</button>
-                </div>
-            </form>
+            </div>
         </div>
-    </div>
-</div>
 
 
 
@@ -212,7 +217,7 @@
             let data = $(this).serialize();
             $.post("{{ route('events.store') }}", data, function(response) {
                 alert(response.success);
-                location.reload(); 
+                location.reload();
             });
         });
 
@@ -240,11 +245,11 @@
 
             $.ajax({
                 url: '/events/' + eventId,
-                type: 'PUT', 
+                type: 'PUT',
                 data: data,
                 success: function(response) {
                     alert(response.success);
-                    location.reload(); 
+                    location.reload();
                 },
                 error: function(jqXHR) {
                     alert('Error: ' + jqXHR.responseJSON.message ||
@@ -262,7 +267,7 @@
                     type: 'DELETE',
                     success: function(response) {
                         alert(response.success);
-                        location.reload(); 
+                        location.reload();
                     }
                 });
             }
@@ -271,7 +276,7 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-     
+
             function startCountdown(eventId, eventDateTime) {
                 const countdownElement = document.getElementById('countdown-' + eventId);
                 const countdownDate = new Date(eventDateTime).getTime();
@@ -294,6 +299,11 @@
                         clearInterval(interval);
                         countdownElement.innerHTML =
                             "<span style='color: yellow;'>Event has started!</span>";
+
+                        setTimeout(function() {
+                            location.reload();
+                        }, 10000);
+
                     }
                 }, 1000);
             }
@@ -302,13 +312,10 @@
                 (function() {
                     const eventId = {{ $event->id }};
                     const eventDateTime =
-                        '{{ $event->event_date }}T{{ $event->event_time }}'; 
+                        '{{ $event->event_date }}T{{ $event->event_time }}';
                     startCountdown(eventId, eventDateTime);
                 })();
             @endforeach
         });
-
-
-     
     </script>
 @endsection
