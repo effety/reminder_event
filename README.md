@@ -20,7 +20,14 @@ Before sending any email, the app checks if the device is connected to the inter
 
 The app also shows a countdown timer until the scheduled event time is reached.
 
-Setup Instructions
+## Version - 
+
+PHP 8.1.11 (cli)
+Laravel -Laravel Framework 10.48.22
+Bootstrap - 4.5.2
+JQuery - 3.5.1
+
+## Setup Instructions
 Clone the Repository:
 git clone https://github.com/effety/reminder_event.git
 
