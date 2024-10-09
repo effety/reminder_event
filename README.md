@@ -64,6 +64,9 @@ To configure the email functionality, ensure that you have set up the MAIL_* var
 
 CSV Import Example:
 Here is an example of the CSV format for importing event reminders:
-
 name, email, event_Date, event_time
 "Project Deadline", "example@example.com", "2024-12-01", "09:00:00"
+
+## CSV Import Example
+
+You can download the example CSV file [here](./instruction/events.csv).
