@@ -59,6 +59,11 @@ crontab -e
 Then add the following line:
 * * * * * cd /var/www/html/reminder_event && php artisan schedule:run >> /dev/null 2>&1
 
+## Time Zone 
+The current time zone is 'Asia/Dhaka'
+
+Just changed the time zone if necessary
+
 Event Reminder ID Generation
 Event reminders are assigned a unique ID based on a predefined prefix format. This ID is automatically generated when a new event is created.
 
