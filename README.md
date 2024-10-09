@@ -1,3 +1,11 @@
+
+![Image 1](./instruction/Event.png)
+![Image 2](./instruction/csv_Uploaded.png)
+![Image 3](./instruction/email.png)
+![Image 4](./instruction/local_terminal.png)
+
+
+
 Event Reminder App
 The Event Reminder App is a web-based application that allows users to manage event reminders with full CRUD (Create, Read, Update, Delete) functionality. The app also provides features for tracking upcoming and completed events, sending email reminders to external recipients at a specific time, working offline with sync capabilities, and importing event data via CSV.
 
