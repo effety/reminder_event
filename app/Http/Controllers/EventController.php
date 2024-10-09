@@ -13,7 +13,12 @@ class EventController extends Controller
         $events = Event::all(); 
         return view('index', compact('events'));
     }
-
+    public function getEvents()
+    {
+        $events = Event::all();
+        return response()->json($events);
+    }
+    
     public function create()
     {
        
@@ -87,7 +92,7 @@ class EventController extends Controller
 
     public function import(Request $request)
     {
-        // Validate the uploaded file
+       
         $request->validate([
             'csv_file' => 'required|file|mimes:csv,txt',
         ]);
@@ -97,9 +102,8 @@ class EventController extends Controller
         $rows = array_map('str_getcsv', explode("\n", $csvData));
         $header = array_shift($rows); 
     
-        // Loop through each row and create an event
         foreach ($rows as $row) {
-            // Ensure the row has data before creating an event
+           
             if (count($row) == count($header)) {
                 $row = array_combine($header, $row);
     
@@ -113,7 +117,6 @@ class EventController extends Controller
             }
         }
     
-        // Redirect back to the previous page with a success message
         return redirect()->back()->with('success', 'Events imported successfully.');
     }
     
