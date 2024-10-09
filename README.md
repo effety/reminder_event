@@ -64,6 +64,9 @@ The current time zone is 'Asia/Dhaka'
 
 Just changed the time zone if necessary
 
+## Logs 
+You can check the logs as well 
+![Image 4](./instruction/logs.png)
 Event Reminder ID Generation
 Event reminders are assigned a unique ID based on a predefined prefix format. This ID is automatically generated when a new event is created.
 

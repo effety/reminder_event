@@ -45,17 +45,17 @@ class Kernel extends ConsoleKernel
             }
 
             foreach ($events as $event) {
-                Log::info("Checking event ID: {$event->id}, Event time: {$event->event_time}");
+                Log::info("Checking event ID: {$event->reminder_id }, Event time: {$event->event_time}");
 
                 if ($event->event_time <= $currentTime) {
-                    Log::info("Sending reminder email for event ID: {$event->id}, email: {$event->email}");
+                    Log::info("Sending reminder email for event ID: {$event->reminder_id }, email: {$event->email}");
     
                     (new SendEventReminderEmail($event, $event->email))->handle();
 
                     $event->is_completed = true;
                     $event->save();
                 } else {
-                    Log::info("Event ID: {$event->id} is scheduled for later today.");
+                    Log::info("Event ID: {$event->reminder_id } is scheduled for later today.");
                 }
             }
         } else {
